@@ -23,7 +23,7 @@ client.on("message", msg => {
     if (!steamID) return msg.channel.send("You haven't added your STEAMID");
     axios
       .get(
-        `http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=%{steamWebApiKey}&steamid=${steamID}&format=json`
+        `http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=${steamWebApiKey}&steamid=${steamID}&format=json`
       )
       .then(data => {
         const stats = data.data.playerstats.stats;
