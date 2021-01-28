@@ -1,0 +1,21 @@
+{
+  "name": "example-csgo-stats",
+  "version": "1.0.0",
+  "description": "Simple Discord Bot that shows csgo stats",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "author": "Tore",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "discord.js": "^12.5.1"
+  },
+  "repository": {
+    "url": "https://github.com/tore2003/"
+  }
+}
