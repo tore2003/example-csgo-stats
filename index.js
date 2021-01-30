@@ -1,8 +1,11 @@
+//http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=B16B00E3B8E631E9010F156AF6935FD1&steamid=76561198987712965&format=json
+
 const axios = require("axios");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const steamWebApiKey = "";
 const tokenBot = "";
+const embedStats = new Discord.MessageEmbed();
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -32,20 +35,34 @@ client.on("message", msg => {
         const hsKills = stats[25].value;
         const totalMVP = stats[93].value;
         const KD = totalKills / totalDeaths;
-        const HS = totalKills / hsKills;
-        console.log(totalKills, totalDeaths, KD);
-        const embedStats = new Discord.MessageEmbed()
+        const HS = totalKills / hsKills * 100;
+        embedStats
           .setTitle("CSGO Stats")
           .setColor(0xff6600)
-          .addField("Total Kills", totalKills)
-          .addField("Total Deaths", totalDeaths)
-          .addField("Total HeadShot Kills", hsKills)
-          .addField('MVPS', totalMVP)
-          .addField("KD", KD.toFixed(2))
-          .addField("Headshot %", HS.toFixed(2) + "%")
+          .addField("Total Kills", totalKills, true)
+          .addField("Total Deaths", totalDeaths, true)
+          .addField("Total HeadShot Kills", hsKills, true)
+          .addField("MVPS", totalMVP, true)
+          .addField("KD", KD.toFixed(2), true)
+          //Maintance: .addField("Headshot %", HS.toFixed(2) + "%", true);
+      })
+      .catch(e => {
+        if (e.response.status == "500") {
+          msg.channel.send("ERROR: ", `${e.response.status} - SOL: Poner publicos los detalles de juegos.`);
+        }
+      });
+    axios
+      .get(
+        `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamWebApiKey}&steamids=${steamID}&format=json`
+      )
+      .then(data => {
+        const user = data.data.response.players;
+        embedStats
+          .setThumbnail(user[0].avatarmedium)
+          .setDescription(`[User Profile](${user[0].profileurl})`)
           .setFooter("Developed By Tore.");
         msg.channel.send(embedStats);
-      });
+      })
   }
 });
 client.login(tokenBot);
