@@ -1,5 +1,3 @@
-//http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=B16B00E3B8E631E9010F156AF6935FD1&steamid=76561198987712965&format=json
-
 const axios = require("axios");
 const Discord = require("discord.js");
 const client = new Discord.Client();
